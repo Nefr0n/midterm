@@ -1,6 +1,7 @@
 package com.example.aviatickets.fragment
 
 import android.os.Bundle
+import com.example.aviatickets.model.entity.Offer
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -47,15 +48,10 @@ class OfferListFragment : Fragment() {
             sortRadioGroup.setOnCheckedChangeListener { _, checkedId ->
                 when (checkedId) {
                     R.id.sort_by_price -> {
-                        /**
-                         * implement sorting by price
-                         */
-                    }
+                        val myOffers = mutableListOf<Offer>()
+                        myOffers.sortBy { it.price }
+                        myOffers.sortByDescending { it.flight.duration }
 
-                    R.id.sort_by_duration -> {
-                        /**
-                         * implement sorting by duration
-                         */
                     }
                 }
             }

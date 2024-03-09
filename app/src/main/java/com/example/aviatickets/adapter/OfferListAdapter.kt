@@ -1,9 +1,11 @@
 package com.example.aviatickets.adapter
 
+import androidx.recyclerview.widget.DiffUtil
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.aviatickets.R
+import com.example.aviatickets.activity.OfferDiffCallback
 import com.example.aviatickets.databinding.ItemOfferBinding
 import com.example.aviatickets.model.entity.Offer
 
@@ -11,15 +13,13 @@ class OfferListAdapter : RecyclerView.Adapter<OfferListAdapter.ViewHolder>() {
 
     private val items: ArrayList<Offer> = arrayListOf()
 
-    fun setItems(offerList: List<Offer>) {
+    fun submitOffers(offerList: List<Offer>) {
+        val diffResult = DiffUtil.calculateDiff(OfferDiffCallback(items, offerList))
         items.clear()
         items.addAll(offerList)
-        notifyDataSetChanged()
-
-        /**
-         * think about recycler view optimization using diff.util
-         */
+        diffResult.dispatchUpdatesTo(this)
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -38,6 +38,12 @@ class OfferListAdapter : RecyclerView.Adapter<OfferListAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(items[position])
     }
+
+    fun setItems(offerList: List<Offer>) {
+
+    }
+
+
 
     inner class ViewHolder(
         private val binding: ItemOfferBinding
